@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
+@RestController
 public class MovieShowController {
     @Autowired
     MovieShowRepository movieShowRepository;
@@ -73,13 +74,15 @@ public class MovieShowController {
         theatre.get().getMovieShows().add(movieShow);
         movieShow.setMovie(movie.get());
         movieShow.setTheatre(theatre.get());
-        return movieShowRepository.save(movieShow);
+        movieShow = movieShowRepository.save(movieShow);
+        return movieShow;
     }
 
     @PutMapping("/api/movieshow/{movieShowId}")
     public MovieShow updateMovieShow(@PathVariable("movieShowId") int movieShowId,@RequestBody MovieShow newMovieShow){
         Optional<MovieShow> movieShow = movieShowRepository.findById(movieShowId);
         try{
+
             List<MovieShow> movieShows= movieShow.get().getMovie().getMovieShows();
             for(MovieShow m: movieShows){
                 if(m.equals(movieShow.get())){

@@ -30,7 +30,8 @@ public class MovieShow {
     @JsonIgnore
     private List<MovieTicket> movieTickets;
 
-    private Seat[][] seats;
+    @JsonIgnore
+    public transient Seat[][] seats;
 
     public MovieShow() {
         super();
@@ -50,7 +51,6 @@ public class MovieShow {
         setMovie(movie);
         setTheatre(theatre);
         createSeats(rows, cols);
-
     }
 
     private void createSeats(int rows, int cols) {
@@ -148,13 +148,13 @@ public class MovieShow {
         }
     }
 
-    public Seat[][] getSeatsBooked() {
-        return seats;
-    }
-
-    public void setSeatsBooked(Seat[][] seats) {
-        this.seats = seats;
-    }
+//    public Seat[][] getSeatsBooked() {
+//        return seats;
+//    }
+//
+//    public void setSeatsBooked(Seat[][] seats) {
+//        this.seats = seats;
+//    }
 
     public List<MovieTicket> getMovieTickets() {
         return movieTickets;
@@ -174,7 +174,7 @@ public class MovieShow {
         setTheatreAdress(newMovieShow.getTheatreAdress());
         setDate(newMovieShow.getDate());
         setTime(newMovieShow.getTime());
-        setSeatsBooked(newMovieShow.getSeatsBooked());
+        //setSeatsBooked(newMovieShow.getSeatsBooked());
     }
 
     public int getRows() {
