@@ -30,8 +30,9 @@ public class MovieShow {
     @JsonIgnore
     private List<MovieTicket> movieTickets;
 
+    @OneToMany(mappedBy = "movieShow", cascade = CascadeType.ALL)
     @JsonIgnore
-    public transient Seat[][] seats;
+    public List<Seat> seats;
 
     public MovieShow() {
         super();
@@ -50,25 +51,25 @@ public class MovieShow {
         this.cols = cols;
         setMovie(movie);
         setTheatre(theatre);
-        createSeats(rows, cols);
+        //createSeats(rows, cols);
     }
 
-    private void createSeats(int rows, int cols) {
-        seats = new Seat[rows][cols];
-        for(int i=0;i<rows;i++){
-            for(int j=0;j<cols;j++){
-                if(i<3){
-                    seats[i][j]= new Seat(i, j, 120, true);//different prices according to seats
-                }
-                else if(i>=rows-2){
-                    seats[i][j]= new Seat(i, j, 180, true);
-                }
-                else{
-                    seats[i][j]= new Seat(i, j, 150, true);
-                }
-            }
-        }
-    }
+//    private void createSeats(int rows, int cols) {
+//        seats = new Seat[rows][cols];
+//        for(int i=0;i<rows;i++){
+//            for(int j=0;j<cols;j++){
+//                if(i<3){
+//                    seats[i][j]= new Seat(i, j, 120, true);//different prices according to seats
+//                }
+//                else if(i>=rows-2){
+//                    seats[i][j]= new Seat(i, j, 180, true);
+//                }
+//                else{
+//                    seats[i][j]= new Seat(i, j, 150, true);
+//                }
+//            }
+//        }
+//    }
 
     public int getId() {
         return id;
@@ -130,6 +131,18 @@ public class MovieShow {
         return movie;
     }
 
+    public void setMovieTickets(List<MovieTicket> movieTickets) {
+        this.movieTickets = movieTickets;
+    }
+
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+    public void setSeats(List<Seat> seats) {
+        this.seats = seats;
+    }
+
     public void setMovie(Movie movie) {
         this.movie = movie;
         if (!movie.getMovieShows().contains(this)) {
@@ -148,13 +161,7 @@ public class MovieShow {
         }
     }
 
-//    public Seat[][] getSeatsBooked() {
-//        return seats;
-//    }
-//
-//    public void setSeatsBooked(Seat[][] seats) {
-//        this.seats = seats;
-//    }
+
 
     public List<MovieTicket> getMovieTickets() {
         return movieTickets;

@@ -43,6 +43,11 @@ public class MovieTicket {
     @JsonIgnore
     MovieShow movieShow;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "seatId")
+    @JsonIgnore
+    Seat seat;
+
     public MovieTicket() {
         super();
     }
@@ -155,6 +160,13 @@ public class MovieTicket {
         if(!movieShow.getMovieTickets().contains(this)) {
             movieShow.getMovieTickets().add(this);
         }
+    }
+    public Seat getSeat() {
+        return seat;
+    }
+
+    public void setSeat(Seat seat) {
+        this.seat = seat;
     }
     public void set(MovieTicket newMovieTicket) {
         setId(newMovieTicket.getId());
