@@ -30,14 +30,15 @@ public class MovieTicketController {
                 try {
                     //payment
                     MovieTicket movieTicket = new MovieTicket(movieShow.get().getMovieName(), movieShow.get().getScreenNumber(), movieShow.get().getTheatreName(), movieShow.get().getTheatreAdress(), movieShow.get().getDate(), movieShow.get().getTime(), seat.getPrice(), seat.getRow(), seat.getCol());
-                    movieTicketRepository.save(movieTicket);
                     movieShow.get().getMovieTickets().add(movieTicket);
                     user.get().getMovieTickets().add(movieTicket);
                     movieTicket.setMovieShow(movieShow.get());
                     movieTicket.setUser(user.get());
                     seat.setAvailable(false);
+                    movieTicketRepository.save(movieTicket);
                     int filled = movieShow.get().getFilled();
                     movieShow.get().setFilled(filled+1);
+                    movieShowRepository.save(movieShow.get());
                     return movieTicket;
                 }
                 catch (Exception e) {

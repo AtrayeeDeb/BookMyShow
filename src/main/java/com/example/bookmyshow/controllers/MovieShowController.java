@@ -28,7 +28,7 @@ public class MovieShowController {
     //CRUD
     //book a ticket for a movieshow
     @GetMapping("/api/movie/{movieId}/movieshow/{date}")
-    public Set<Theatre> findAllTheatresByMovieAndDate(@PathVariable("movieId") int movieId, @PathVariable("movieId") String date){
+    public Set<Theatre> findAllTheatresByMovieAndDate(@PathVariable("movieId") int movieId, @PathVariable("date") String date){
         Set<Theatre> theatres = new HashSet<>();
         try{
             List<MovieShow> movieShows = (List<MovieShow>)movieShowRepository.findByMovieIdAndDate(movieId, date);
@@ -114,17 +114,19 @@ public class MovieShowController {
         Optional<MovieShow> movieShow = movieShowRepository.findById(movieShowId);
         try{
             List<MovieShow> movieShows= movieShow.get().getMovie().getMovieShows();
-            for(MovieShow m: movieShows){
-                if(m.equals(movieShow.get())){
-                    movieShows.remove(m);
-                }
-            }
+            movieShows.remove(movieShow.get());
+//            for(MovieShow m: movieShows){
+//                if(m.equals(movieShow.get())){
+//                    movieShows.remove(m);
+//                }
+//            }
             List<MovieShow> theatreMovieShows= movieShow.get().getMovie().getMovieShows();
-            for(MovieShow m: theatreMovieShows){
-                if(m.equals(movieShow.get())){
-                    theatreMovieShows.remove(m);
-                }
-            }
+            theatreMovieShows.remove(movieShow.get());
+//            for(MovieShow m: theatreMovieShows){
+//                if(m.equals(movieShow.get())){
+//                    theatreMovieShows.remove(m);
+//                }
+//            }
             movieShowRepository.deleteById(movieShowId);
         }
         catch(Exception e){
