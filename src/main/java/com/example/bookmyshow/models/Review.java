@@ -74,8 +74,9 @@ public class Review {
         this.user = user;
         user.getReviews().add(this);
     }
-    public void set(Review review){
-        setId(review.getId());
-        setDescription(review.getDescription());
+    public void set(Review newReview){
+        if(newReview.getDescription()!=null){
+            setDescription(newReview.getDescription());
+        }
     }
 }

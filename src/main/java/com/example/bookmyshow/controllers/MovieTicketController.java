@@ -102,7 +102,6 @@ public class MovieTicketController {
         catch(Exception e){
             System.out.println("[deleteMovieTicket]:error occured->"+e);
         }
-
     }
 
 //    @PutMapping("/api/movieTicket/{movieTicketId}")

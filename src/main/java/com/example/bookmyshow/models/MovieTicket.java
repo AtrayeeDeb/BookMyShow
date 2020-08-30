@@ -169,16 +169,33 @@ public class MovieTicket {
         this.seat = seat;
     }
     public void set(MovieTicket newMovieTicket) {
-        setId(newMovieTicket.getId());
-        setMovieName(newMovieTicket.getMovieName());
-        setScreenNumber(newMovieTicket.getScreenNumber());
-        setTheatreName(newMovieTicket.getTheatreName());
-        setTheatreAdress(newMovieTicket.getTheatreAdress());
-        setDate(newMovieTicket.getDate());
-        setTime(newMovieTicket.getTime());
-        setR(newMovieTicket.getR());
-        setC(newMovieTicket.getC());
-        setPrice(newMovieTicket.getPrice());
+        if(newMovieTicket.getMovieName()!=null){
+            setMovieName(newMovieTicket.getMovieName());
+        }
+        if(newMovieTicket.getScreenNumber()!=this.getScreenNumber()){
+            setScreenNumber(newMovieTicket.getScreenNumber());
+        }
+        if(newMovieTicket.getTheatreName()!=null){
+            setTheatreName(newMovieTicket.getTheatreName());
+        }
+        if(newMovieTicket.getTheatreAdress()!=null){
+            setTheatreAdress(newMovieTicket.getTheatreAdress());
+        }
+        if(newMovieTicket.getDate()!=null){
+            setDate(newMovieTicket.getDate());
+        }
+        if(newMovieTicket.getTime()!=null){
+            setTime(newMovieTicket.getTime());
+        }
+        if(newMovieTicket.getR()!=this.getR()){
+            setR(newMovieTicket.getR());
+        }
+        if(newMovieTicket.getC()!=this.getC()){
+            setC(newMovieTicket.getC());
+        }
+        if(newMovieTicket.getPrice()!=this.getPrice()){
+            setPrice(newMovieTicket.getPrice());
+        }
     }
 
 

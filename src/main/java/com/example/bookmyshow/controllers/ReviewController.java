@@ -27,7 +27,7 @@ public class ReviewController {
         return reviewRepository.findById(reviewId);
     }
 
-    @PostMapping("/api/user/{userId}/movie/{moveId}/createReview")
+    @PostMapping("/api/user/{userId}/movie/{movieId}/createReview")
     public Review createReview(@PathVariable("movieId") int movieId, @PathVariable("userId") int userId, @RequestBody Review review){
         Optional<Movie> movie = movieRepository.findById(movieId);
         Optional<User> user = userRepository.findById(userId);
@@ -42,20 +42,20 @@ public class ReviewController {
     public Review updateReview(@PathVariable("reviewId") int reviewId, @RequestBody Review newReview){
         Optional<Review> review = reviewRepository.findById(reviewId);
         try{
-            List<Review> movieReviews= review.get().getMovie().getReviews();
-            for(Review r: movieReviews){
-                if(r.equals(review.get())){
-                    movieReviews.remove(r);
-                }
-            }
-            movieReviews.add(newReview);
-            List<Review> userReviews= review.get().getUser().getReviews();
-            for(Review r: userReviews){
-                if(r.equals(review.get())){
-                    userReviews.remove(r);
-                }
-            }
-            userReviews.add(newReview);
+//            List<Review> movieReviews= review.get().getMovie().getReviews();
+//            for(Review r: movieReviews){
+//                if(r.equals(review.get())){
+//                    movieReviews.remove(r);
+//                }
+//            }
+//            movieReviews.add(newReview);
+//            List<Review> userReviews= review.get().getUser().getReviews();
+//            for(Review r: userReviews){
+//                if(r.equals(review.get())){
+//                    userReviews.remove(r);
+//                }
+//            }
+//            userReviews.add(newReview);
             review.get().set(newReview);
             return reviewRepository.save(review.get());
         }
@@ -69,17 +69,9 @@ public class ReviewController {
         Optional<Review> review = reviewRepository.findById(reviewId);
         try{
             List<Review> movieReviews= review.get().getMovie().getReviews();
-            for(Review r: movieReviews){
-                if(r.equals(review.get())){
-                    movieReviews.remove(r);
-                }
-            }
+            movieReviews.remove(review.get());
             List<Review> userReviews= review.get().getUser().getReviews();
-            for(Review r: userReviews) {
-                if (r.equals(review.get())) {
-                    userReviews.remove(r);
-                }
-            }
+            userReviews.remove(review.get());
             reviewRepository.deleteById(reviewId);
         }
         catch(Exception e){

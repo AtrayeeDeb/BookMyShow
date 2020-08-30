@@ -174,14 +174,24 @@ public class MovieShow {
         }
     }
     public void set(MovieShow newMovieShow) {
-        setId(newMovieShow.getId());
-        setMovieName(newMovieShow.getMovieName());
-        setScreenNumber(newMovieShow.getScreenNumber());
-        setTheatreName(newMovieShow.getTheatreName());
-        setTheatreAdress(newMovieShow.getTheatreAdress());
-        setDate(newMovieShow.getDate());
-        setTime(newMovieShow.getTime());
-        //setSeatsBooked(newMovieShow.getSeatsBooked());
+        if(newMovieShow.getMovieName()!=null){
+            setMovieName(newMovieShow.getMovieName());
+        }
+        if(newMovieShow.getScreenNumber()!=this.getScreenNumber()){
+            setScreenNumber(newMovieShow.getScreenNumber());
+        }
+        if(newMovieShow.getTheatreName()!=null){
+            setTheatreName(newMovieShow.getTheatreName());
+        }
+        if(newMovieShow.getTheatreAdress()!=null){
+            setTheatreAdress(newMovieShow.getTheatreAdress());
+        }
+        if(newMovieShow.getDate()!=null){
+            setDate(newMovieShow.getDate());
+        }
+        if(newMovieShow.getTime()!=null){
+            setTime(newMovieShow.getTime());
+        }
     }
 
     public int getRows() {

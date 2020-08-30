@@ -109,15 +109,27 @@ public class Movie {
     }
 
     public void set(Movie newMovie) {
-        setId(newMovie.getId());
-        setMovieShows(newMovie.getMovieShows());
-        setPlot(newMovie.getPlot());
-        setPoster(newMovie.getPoster());
-        setReleaseDate(newMovie.getReleaseDate());
-        setReviews(newMovie.getReviews());
-        setTitle(newMovie.getTitle());
-        setTrailerUrl(newMovie.getTrailerUrl());
-        setStars(newMovie.getStars());
-        setVoteCount(newMovie.getVoteCount());
+        if(newMovie.getPlot()!=null){
+            setPlot(newMovie.getPlot());
+        }
+        if(newMovie.getPoster()!=null){
+            setPoster(newMovie.getPoster());
+        }
+        if(newMovie.getReleaseDate()!=null){
+            setReleaseDate(newMovie.getReleaseDate());
+        }
+        if(newMovie.getTitle()!=null){
+            setTitle(newMovie.getTitle());
+        }
+        if(newMovie.getTrailerUrl()!=null){
+            setTrailerUrl(newMovie.getTrailerUrl());
+        }
+        if(newMovie.getStars()!=this.getStars()){
+            setStars(newMovie.getStars());
+        }
+        if(newMovie.getVoteCount()!=this.getVoteCount()){
+            setVoteCount(newMovie.getVoteCount());
+        }
+
     }
 }
