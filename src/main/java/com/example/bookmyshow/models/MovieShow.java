@@ -11,7 +11,7 @@ public class MovieShow {
     private String movieName;
     private int screenNumber;
     private String theatreName;
-    private String theatreAdress;
+    private String theatreAddress;
     private String date;
     private String time;
     private int rows;
@@ -38,20 +38,17 @@ public class MovieShow {
         super();
     }
 
-    public MovieShow(String movieName, int screenNumber, String theatreName, String theatreAdress,
-                     String date, String time, int rows, int cols, Movie movie, Theatre theatre) {
+    public MovieShow(String movieName, int screenNumber, String theatreName, String theatreAddress,
+                     String date, String time, int rows, int cols) {
         super();
         this.movieName = movieName;
         this.screenNumber = screenNumber;
         this.theatreName = theatreName;
-        this.theatreAdress = theatreAdress;
+        this.theatreAddress = theatreAddress;
         this.date = date;
         this.time = time;
         this.rows = rows;
         this.cols = cols;
-        setMovie(movie);
-        setTheatre(theatre);
-        //createSeats(rows, cols);
     }
 
 //    private void createSeats(int rows, int cols) {
@@ -103,12 +100,12 @@ public class MovieShow {
         this.theatreName = theatreName;
     }
 
-    public String getTheatreAdress() {
-        return theatreAdress;
+    public String getTheatreAddress() {
+        return theatreAddress;
     }
 
-    public void setTheatreAdress(String theatreAdress) {
-        this.theatreAdress = theatreAdress;
+    public void setTheatreAddress(String theatreAdress) {
+        this.theatreAddress = theatreAdress;
     }
 
     public String getDate() {
@@ -183,8 +180,8 @@ public class MovieShow {
         if(newMovieShow.getTheatreName()!=null){
             setTheatreName(newMovieShow.getTheatreName());
         }
-        if(newMovieShow.getTheatreAdress()!=null){
-            setTheatreAdress(newMovieShow.getTheatreAdress());
+        if(newMovieShow.getTheatreAddress()!=null){
+            setTheatreAddress(newMovieShow.getTheatreAddress());
         }
         if(newMovieShow.getDate()!=null){
             setDate(newMovieShow.getDate());

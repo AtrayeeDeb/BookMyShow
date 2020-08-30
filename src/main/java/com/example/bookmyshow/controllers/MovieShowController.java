@@ -65,11 +65,11 @@ public class MovieShowController {
         }
     }
     @PostMapping("/api/movie/{movieId}/theatre/{theatreId}/createMovieShow")
-    public MovieShow createMovieShow(@PathVariable("movieId") int movieId, @PathVariable("theatreId") int theatreId, @RequestBody MovieShowRequest movieShowRequest){
+    public MovieShow createMovieShow(@PathVariable("movieId") int movieId, @PathVariable("theatreId") int theatreId, @RequestBody MovieShow movieShow){
         System.out.println("createMovieShow called");
         Optional<Movie> movie = movieRepository.findById(movieId);
         Optional<Theatre> theatre = theatreRepository.findById(theatreId);
-        MovieShow movieShow = new MovieShow(movie.get().getTitle(), movieShowRequest.screenNumber, theatre.get().getName(), theatre.get().getLocation(), movieShowRequest.date, movieShowRequest.time, movieShowRequest.rows, movieShowRequest.cols, movie.get(), theatre.get());
+        //MovieShow movieShow = new MovieShow(movie.get().getTitle(), movieShowRequest.screenNumber, theatre.get().getName(), theatre.get().getLocation(), movieShowRequest.date, movieShowRequest.time, movieShowRequest.rows, movieShowRequest.cols, movie.get(), theatre.get());
         movie.get().getMovieShows().add(movieShow);
         theatre.get().getMovieShows().add(movieShow);
         movieShow.setMovie(movie.get());

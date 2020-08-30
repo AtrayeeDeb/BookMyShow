@@ -29,7 +29,7 @@ public class MovieTicketController {
                 if(seat.isAvailable()) {
                     try {
                         //payment
-                        MovieTicket movieTicket = new MovieTicket(movieShow.get().getMovieName(), movieShow.get().getScreenNumber(), movieShow.get().getTheatreName(), movieShow.get().getTheatreAdress(), movieShow.get().getDate(), movieShow.get().getTime(), seat.getPrice(), seat.getR(), seat.getR());
+                        MovieTicket movieTicket = new MovieTicket(movieShow.get().getMovieName(), movieShow.get().getScreenNumber(), movieShow.get().getTheatreName(), movieShow.get().getTheatreAddress(), movieShow.get().getDate(), movieShow.get().getTime(), seat.getPrice(), seat.getR(), seat.getR());
                         movieShow.get().getMovieTickets().add(movieTicket);
                         user.get().getMovieTickets().add(movieTicket);
                         movieTicket.setMovieShow(movieShow.get());
@@ -42,7 +42,7 @@ public class MovieTicketController {
                         seatRepository.save(seat);
                         int filled = movieShow.get().getFilled();
                         movieShow.get().setFilled(filled+1);
-                        movieShowRepository.save(movieShow.get());
+                        //movieShowRepository.save(movieShow.get());
                         movieTicketRepository.save(movieTicket);
                     }
                     catch (Exception e) {
@@ -82,7 +82,7 @@ public class MovieTicketController {
                         seats.remove(seat);
                         int filled = movieShow.getFilled();
                         movieShow.setFilled(filled-1);
-                        movieShowRepository.save(movieShow);
+                        //movieShowRepository.save(movieShow);
                         movieTickets = user.getMovieTickets();
                         movieTickets.remove(movieTicket.get());
                         seatRepository.deleteById(seat.getId());
@@ -104,58 +104,48 @@ public class MovieTicketController {
         }
     }
 
-//    @PutMapping("/api/movieTicket/{movieTicketId}")
-//    public MovieTicket rescheduleMovieTicket(@PathVariable("movieTicketId") int movieTicketId, @RequestBody MovieShow newMovieShow, @RequestBody Seat newSeat ){
-//        Optional<MovieTicket> movieTicket = movieTicketRepository.findById(movieTicketId);
-//        User user = movieTicket.get().getUser();
-//        MovieShow movieShow = movieTicket.get().getMovieShow();
-//        Seat seat = movieShow.getSeatsBooked()[movieTicket.get().getR()][movieTicket.get().getC()];
-//        synchronized (newSeat.seatMutex) {
-//            synchronized (seat.seatMutex) {
-//                if (!seat.isAvailable()) {
-//                    List<MovieTicket> movieTickets = movieShow.getMovieTickets();
-//                    for (MovieTicket m : movieTickets) {
-//                        if (m.equals(movieTicket.get())) {
-//                            movieTickets.remove(m);
-//                        }
-//                    }
-//                    int filled = movieShow.getFilled();
-//                    movieShow.setFilled(filled-1);
-//                    movieTickets = user.getMovieTickets();
-//                    for (MovieTicket m : movieTickets) {
-//                        if (m.equals(movieTicket.get())) {
-//                            movieTickets.remove(m);
-//                        }
-//                    }
-//                    seat.setAvailable(true);
-//                } else {
-//
-//                }
-//            }
-//            if(newSeat.isAvailable()) {
-//                try {
-//                    //payment
-//                    MovieTicket newMovieTicket = new MovieTicket(newMovieShow.getMovieName(), newMovieShow.getScreenNumber(), newMovieShow.getTheatreName(), newMovieShow.getTheatreAdress(), newMovieShow.getDate(), newMovieShow.getTime(), newSeat.getPrice(), newSeat.getRow(), newSeat.getCol());
-//                    movieTicket.get().set(newMovieTicket);
-//                    movieTicketRepository.save(movieTicket.get());
-//                    newMovieShow.getMovieTickets().add(movieTicket.get());
-//                    int filled = newMovieShow.getFilled();
-//                    movieShow.setFilled(filled+1);
-//                    user.getMovieTickets().add(movieTicket.get());
-//                    seat.setAvailable(false);
-//                    return movieTicket.get();
-//                }
-//                catch (Exception e) {
-//                    System.out.println("[createMovieTicket]:Error occured in booking tickets");
-//                    return null;
-//                }
-//            }
-//            else{
-//                System.out.println("[createMovieTicket]:Seat not available");
-//                return null;
-//            }
-//        }
-//    }
+    @PutMapping("/api/movieTicket/{movieTicketId}")
+    public MovieTicket rescheduleMovieTicket(@PathVariable("movieTicketId") int movieTicketId, @RequestBody MovieShow newMovieShow, @RequestBody Seat newSeat ){
+        Optional<MovieTicket> movieTicket = movieTicketRepository.findById(movieTicketId);
+        User user = movieTicket.get().getUser();
+        MovieShow movieShow = movieTicket.get().getMovieShow();
+        Seat seat = movieTicket.get().getSeat();
+        synchronized (newSeat.seatMutex) {
+            synchronized (seat.seatMutex) {
+                if (!seat.isAvailable()) {
+                    List<MovieTicket> movieTickets = movieShow.getMovieTickets();
+                    movieTickets.remove(movieTicket.get());
+                    int filled = movieShow.getFilled();
+                    movieShow.setFilled(filled-1);
+                    movieTickets = user.getMovieTickets();
+                    movieTickets.remove(movieTicket.get());
+                    seat.setAvailable(true);
+                }
+            }
+            if(newSeat.isAvailable()) {
+                try {
+                    //payment
+                    MovieTicket newMovieTicket = new MovieTicket(newMovieShow.getMovieName(), newMovieShow.getScreenNumber(), newMovieShow.getTheatreName(), newMovieShow.getTheatreAddress(), newMovieShow.getDate(), newMovieShow.getTime(), newSeat.getPrice(), newSeat.getR(), newSeat.getC());
+                    movieTicket.get().set(newMovieTicket);
+                    movieTicketRepository.save(movieTicket.get());
+                    newMovieShow.getMovieTickets().add(movieTicket.get());
+                    int filled = newMovieShow.getFilled();
+                    movieShow.setFilled(filled+1);
+                    user.getMovieTickets().add(movieTicket.get());
+                    seat.setAvailable(false);
+                    return movieTicket.get();
+                }
+                catch (Exception e) {
+                    System.out.println("[createMovieTicket]:Error occured in booking tickets");
+                    return null;
+                }
+            }
+            else{
+                System.out.println("[createMovieTicket]:Seat not available");
+                return null;
+            }
+        }
+    }
     @GetMapping("/api/movieTicket/{movieTicketId}")
     public MovieTicket getTicket(@PathVariable("movieTicketId") int movieTicketId){
         Optional<MovieTicket> movieTicket = movieTicketRepository.findById(movieTicketId);
