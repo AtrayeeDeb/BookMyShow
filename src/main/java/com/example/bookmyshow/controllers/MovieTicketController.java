@@ -105,11 +105,13 @@ public class MovieTicketController {
     }
 
     @PutMapping("/api/movieTicket/{movieTicketId}")
-    public MovieTicket rescheduleMovieTicket(@PathVariable("movieTicketId") int movieTicketId, @RequestBody MovieShow newMovieShow, @RequestBody Seat newSeat ){
+    public MovieTicket rescheduleMovieTicket(@PathVariable("movieTicketId") int movieTicketId, @RequestBody RescheduleMovieTicketRequest rescheduleRequest ){
         Optional<MovieTicket> movieTicket = movieTicketRepository.findById(movieTicketId);
         User user = movieTicket.get().getUser();
         MovieShow movieShow = movieTicket.get().getMovieShow();
         Seat seat = movieTicket.get().getSeat();
+        MovieShow newMovieShow = movieShowRepository.findById(rescheduleRequest.movieShowId).get();
+        Seat newSeat = rescheduleRequest.seat;
         synchronized (newSeat.seatMutex) {
             synchronized (seat.seatMutex) {
                 if (!seat.isAvailable()) {
