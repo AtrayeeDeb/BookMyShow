@@ -11,7 +11,7 @@ public class MovieShow {
     private String movieName;
     private int screenNumber;
     private String theatreName;
-    private String theatreAdress;
+    private String theatreAddress;
     private String date;
     private String time;
     private int rows;
@@ -30,45 +30,43 @@ public class MovieShow {
     @JsonIgnore
     private List<MovieTicket> movieTickets;
 
-    private Seat[][] seats;
+    @OneToMany(mappedBy = "movieShow", cascade = CascadeType.ALL)
+    @JsonIgnore
+    public List<Seat> seats;
 
     public MovieShow() {
         super();
     }
 
-    public MovieShow(String movieName, int screenNumber, String theatreName, String theatreAdress,
-                     String date, String time, int rows, int cols, Movie movie, Theatre theatre) {
+    public MovieShow(String movieName, int screenNumber, String theatreName, String theatreAddress,
+                     String date, String time, int rows, int cols) {
         super();
         this.movieName = movieName;
         this.screenNumber = screenNumber;
         this.theatreName = theatreName;
-        this.theatreAdress = theatreAdress;
+        this.theatreAddress = theatreAddress;
         this.date = date;
         this.time = time;
         this.rows = rows;
         this.cols = cols;
-        setMovie(movie);
-        setTheatre(theatre);
-        createSeats(rows, cols);
-
     }
 
-    private void createSeats(int rows, int cols) {
-        seats = new Seat[rows][cols];
-        for(int i=0;i<rows;i++){
-            for(int j=0;j<cols;j++){
-                if(i<3){
-                    seats[i][j]= new Seat(i, j, 120, true);//different prices according to seats
-                }
-                else if(i>=rows-2){
-                    seats[i][j]= new Seat(i, j, 180, true);
-                }
-                else{
-                    seats[i][j]= new Seat(i, j, 150, true);
-                }
-            }
-        }
-    }
+//    private void createSeats(int rows, int cols) {
+//        seats = new Seat[rows][cols];
+//        for(int i=0;i<rows;i++){
+//            for(int j=0;j<cols;j++){
+//                if(i<3){
+//                    seats[i][j]= new Seat(i, j, 120, true);//different prices according to seats
+//                }
+//                else if(i>=rows-2){
+//                    seats[i][j]= new Seat(i, j, 180, true);
+//                }
+//                else{
+//                    seats[i][j]= new Seat(i, j, 150, true);
+//                }
+//            }
+//        }
+//    }
 
     public int getId() {
         return id;
@@ -102,12 +100,12 @@ public class MovieShow {
         this.theatreName = theatreName;
     }
 
-    public String getTheatreAdress() {
-        return theatreAdress;
+    public String getTheatreAddress() {
+        return theatreAddress;
     }
 
-    public void setTheatreAdress(String theatreAdress) {
-        this.theatreAdress = theatreAdress;
+    public void setTheatreAddress(String theatreAdress) {
+        this.theatreAddress = theatreAdress;
     }
 
     public String getDate() {
@@ -130,6 +128,18 @@ public class MovieShow {
         return movie;
     }
 
+    public void setMovieTickets(List<MovieTicket> movieTickets) {
+        this.movieTickets = movieTickets;
+    }
+
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+    public void setSeats(List<Seat> seats) {
+        this.seats = seats;
+    }
+
     public void setMovie(Movie movie) {
         this.movie = movie;
         if (!movie.getMovieShows().contains(this)) {
@@ -148,13 +158,7 @@ public class MovieShow {
         }
     }
 
-    public Seat[][] getSeatsBooked() {
-        return seats;
-    }
 
-    public void setSeatsBooked(Seat[][] seats) {
-        this.seats = seats;
-    }
 
     public List<MovieTicket> getMovieTickets() {
         return movieTickets;
@@ -167,14 +171,24 @@ public class MovieShow {
         }
     }
     public void set(MovieShow newMovieShow) {
-        setId(newMovieShow.getId());
-        setMovieName(newMovieShow.getMovieName());
-        setScreenNumber(newMovieShow.getScreenNumber());
-        setTheatreName(newMovieShow.getTheatreName());
-        setTheatreAdress(newMovieShow.getTheatreAdress());
-        setDate(newMovieShow.getDate());
-        setTime(newMovieShow.getTime());
-        setSeatsBooked(newMovieShow.getSeatsBooked());
+        if(newMovieShow.getMovieName()!=null){
+            setMovieName(newMovieShow.getMovieName());
+        }
+        if(newMovieShow.getScreenNumber()!=this.getScreenNumber()){
+            setScreenNumber(newMovieShow.getScreenNumber());
+        }
+        if(newMovieShow.getTheatreName()!=null){
+            setTheatreName(newMovieShow.getTheatreName());
+        }
+        if(newMovieShow.getTheatreAddress()!=null){
+            setTheatreAddress(newMovieShow.getTheatreAddress());
+        }
+        if(newMovieShow.getDate()!=null){
+            setDate(newMovieShow.getDate());
+        }
+        if(newMovieShow.getTime()!=null){
+            setTime(newMovieShow.getTime());
+        }
     }
 
     public int getRows() {

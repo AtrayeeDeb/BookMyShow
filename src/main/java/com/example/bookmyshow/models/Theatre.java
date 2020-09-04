@@ -97,9 +97,15 @@ public class Theatre {
     }
 
     public void set(Theatre newTheatre) {
-        this.setDescription(newTheatre.getDescription());
-        this.setName(newTheatre.getName());
-        this.setLocation(newTheatre.getLocation());
+        if(newTheatre.getDescription()!=null){
+            this.setDescription(newTheatre.getDescription());
+        }
+        if(newTheatre.getName()!=null){
+            this.setName(newTheatre.getName());
+        }
+        if(newTheatre.getLocation()!=null){
+            this.setLocation(newTheatre.getLocation());
+        }
     }
 
 }

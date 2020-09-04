@@ -39,13 +39,27 @@ public class User extends Person{
 
 
     public void set(User newUser) {
-        this.setAddress(newUser.getAddress());
-        this.setDob(newUser.getDob());
-        this.setEmail(newUser.getEmail());
-        this.setFirstName(newUser.getFirstName());
-        this.setLastName(newUser.getLastName());
-        this.setPassword(newUser.getPassword());
-        this.setPhone(newUser.getPhone());
+        if(newUser.getAddress()!=null) {
+            this.setAddress(newUser.getAddress());
+        }
+        if(newUser.getDob()!=null){
+            this.setDob(newUser.getDob());
+        }
+        if(newUser.getEmail()!=null){
+            this.setEmail(newUser.getEmail());
+        }
+        if(newUser.getFirstName()!=null){
+            this.setFirstName(newUser.getFirstName());
+        }
+        if(newUser.getLastName()!=null){
+            this.setLastName(newUser.getLastName());
+        }
+        if(newUser.getPassword()!=null){
+            this.setPassword(newUser.getPassword());
+        }
+        if(newUser.getPhone()!=null){
+            this.setPhone(newUser.getPhone());
+        }
     }
 
 }

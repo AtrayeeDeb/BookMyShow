@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
+@RestController
 public class MovieShowController {
     @Autowired
     MovieShowRepository movieShowRepository;
@@ -27,7 +28,7 @@ public class MovieShowController {
     //CRUD
     //book a ticket for a movieshow
     @GetMapping("/api/movie/{movieId}/movieshow/{date}")
-    public Set<Theatre> findAllTheatresByMovieAndDate(@PathVariable("movieId") int movieId, @PathVariable("movieId") String date){
+    public Set<Theatre> findAllTheatresByMovieAndDate(@PathVariable("movieId") int movieId, @PathVariable("date") String date){
         Set<Theatre> theatres = new HashSet<>();
         try{
             List<MovieShow> movieShows = (List<MovieShow>)movieShowRepository.findByMovieIdAndDate(movieId, date);
@@ -64,36 +65,22 @@ public class MovieShowController {
         }
     }
     @PostMapping("/api/movie/{movieId}/theatre/{theatreId}/createMovieShow")
-    public MovieShow createMovieShow(@PathVariable("movieId") int movieId, @PathVariable("theatreId") int theatreId, @RequestBody MovieShowRequest movieShowRequest){
+    public MovieShow createMovieShow(@PathVariable("movieId") int movieId, @PathVariable("theatreId") int theatreId, @RequestBody MovieShow movieShow){
         System.out.println("createMovieShow called");
         Optional<Movie> movie = movieRepository.findById(movieId);
         Optional<Theatre> theatre = theatreRepository.findById(theatreId);
-        MovieShow movieShow = new MovieShow(movie.get().getTitle(), movieShowRequest.screenNumber, theatre.get().getName(), theatre.get().getLocation(), movieShowRequest.date, movieShowRequest.time, movieShowRequest.rows, movieShowRequest.cols, movie.get(), theatre.get());
         movie.get().getMovieShows().add(movieShow);
         theatre.get().getMovieShows().add(movieShow);
         movieShow.setMovie(movie.get());
         movieShow.setTheatre(theatre.get());
-        return movieShowRepository.save(movieShow);
+        movieShow = movieShowRepository.save(movieShow);
+        return movieShow;
     }
 
-    @PutMapping("/api/movieshow/{movieShowId}")
+    @PutMapping("/api/movieShow/{movieShowId}")
     public MovieShow updateMovieShow(@PathVariable("movieShowId") int movieShowId,@RequestBody MovieShow newMovieShow){
         Optional<MovieShow> movieShow = movieShowRepository.findById(movieShowId);
         try{
-            List<MovieShow> movieShows= movieShow.get().getMovie().getMovieShows();
-            for(MovieShow m: movieShows){
-                if(m.equals(movieShow.get())){
-                    movieShows.remove(m);
-                }
-            }
-            movieShows.add(newMovieShow);
-            List<MovieShow> theatreMovieShows= movieShow.get().getMovie().getMovieShows();
-            for(MovieShow m: theatreMovieShows){
-                if(m.equals(movieShow.get())){
-                    theatreMovieShows.remove(m);
-                }
-            }
-            theatreMovieShows.add(newMovieShow);
             movieShow.get().set(newMovieShow);
             return movieShowRepository.save(movieShow.get());
         }
@@ -111,17 +98,9 @@ public class MovieShowController {
         Optional<MovieShow> movieShow = movieShowRepository.findById(movieShowId);
         try{
             List<MovieShow> movieShows= movieShow.get().getMovie().getMovieShows();
-            for(MovieShow m: movieShows){
-                if(m.equals(movieShow.get())){
-                    movieShows.remove(m);
-                }
-            }
+            movieShows.remove(movieShow.get());
             List<MovieShow> theatreMovieShows= movieShow.get().getMovie().getMovieShows();
-            for(MovieShow m: theatreMovieShows){
-                if(m.equals(movieShow.get())){
-                    theatreMovieShows.remove(m);
-                }
-            }
+            theatreMovieShows.remove(movieShow.get());
             movieShowRepository.deleteById(movieShowId);
         }
         catch(Exception e){

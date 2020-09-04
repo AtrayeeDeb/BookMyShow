@@ -1,4 +1,6 @@
 package com.example.bookmyshow.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -17,6 +19,7 @@ public class Person {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_adress_id")
+    @JsonIgnore
     private Address address;
 
     public Person() {
