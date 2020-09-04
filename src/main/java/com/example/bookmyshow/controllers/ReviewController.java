@@ -22,7 +22,7 @@ public class ReviewController {
     MovieRepository movieRepository;
     //CRUD
     //get reviews
-    @GetMapping("/api/movie/{reviewId}")
+    @GetMapping("/api/review/{reviewId}")
     public Optional<Review> getReview(@PathVariable("reviewId") int reviewId){
         return reviewRepository.findById(reviewId);
     }

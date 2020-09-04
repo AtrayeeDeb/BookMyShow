@@ -22,7 +22,7 @@ public class MovieController {
     @Autowired
     MovieRepository movieRepository;
 
-    @GetMapping("/api/movie/{movieId}")//not working
+    @GetMapping("/api/movie/{movieId}")
     public Optional<Movie> getMovie(@PathVariable("movieId") int movieId){
         return movieRepository.findById(movieId);
     }

@@ -69,7 +69,6 @@ public class MovieShowController {
         System.out.println("createMovieShow called");
         Optional<Movie> movie = movieRepository.findById(movieId);
         Optional<Theatre> theatre = theatreRepository.findById(theatreId);
-        //MovieShow movieShow = new MovieShow(movie.get().getTitle(), movieShowRequest.screenNumber, theatre.get().getName(), theatre.get().getLocation(), movieShowRequest.date, movieShowRequest.time, movieShowRequest.rows, movieShowRequest.cols, movie.get(), theatre.get());
         movie.get().getMovieShows().add(movieShow);
         theatre.get().getMovieShows().add(movieShow);
         movieShow.setMovie(movie.get());
@@ -82,13 +81,6 @@ public class MovieShowController {
     public MovieShow updateMovieShow(@PathVariable("movieShowId") int movieShowId,@RequestBody MovieShow newMovieShow){
         Optional<MovieShow> movieShow = movieShowRepository.findById(movieShowId);
         try{
-
-//            List<MovieShow> movieShows= movieShow.get().getMovie().getMovieShows();
-//            movieShows.remove(movieShow.get());
-//            movieShows.add(newMovieShow);
-//            List<MovieShow> theatreMovieShows= movieShow.get().getTheatre().getMovieShows();
-//            theatreMovieShows.remove(movieShow.get());
-//            theatreMovieShows.add(newMovieShow);
             movieShow.get().set(newMovieShow);
             return movieShowRepository.save(movieShow.get());
         }
@@ -107,18 +99,8 @@ public class MovieShowController {
         try{
             List<MovieShow> movieShows= movieShow.get().getMovie().getMovieShows();
             movieShows.remove(movieShow.get());
-//            for(MovieShow m: movieShows){
-//                if(m.equals(movieShow.get())){
-//                    movieShows.remove(m);
-//                }
-//            }
             List<MovieShow> theatreMovieShows= movieShow.get().getMovie().getMovieShows();
             theatreMovieShows.remove(movieShow.get());
-//            for(MovieShow m: theatreMovieShows){
-//                if(m.equals(movieShow.get())){
-//                    theatreMovieShows.remove(m);
-//                }
-//            }
             movieShowRepository.deleteById(movieShowId);
         }
         catch(Exception e){
